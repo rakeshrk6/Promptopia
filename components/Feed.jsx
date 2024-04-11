@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react"
 import PromptCard from "./PromptCard"
 import Image from "next/image"
+import { connectToDB } from "@utils/database"
+import Loading from "./loading"
 
 const PromptCardList = ({ data, handleTagClick }) => {
   return (
@@ -23,6 +25,11 @@ const Feed = () => {
   const [allPosts, setAllPosts] = useState([])
   const [searchTimeout, setSearchTimeout] = useState(null)
   const [searchedResults, setSearchedResults] = useState([])
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    connectToDB()
+  }, [])
 
   const handleSearchChange = (e) => {
     clearTimeout(searchTimeout)
@@ -55,13 +62,19 @@ const Feed = () => {
   }
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await fetch("/api/prompt")
-      const data = await response.json()
-      setAllPosts(data)
-    }
+    try {
+      setLoading(true)
+      const fetchPosts = async () => {
+        const response = await fetch("/api/prompt")
+        const data = await response.json()
+        setAllPosts(data)
+      }
 
-    fetchPosts()
+      fetchPosts()
+    } catch (error) {
+      console.log(error)
+    }
+    setLoading(false)
   }, [])
 
   return (
@@ -92,6 +105,10 @@ const Feed = () => {
           data={searchedResults}
           handleTagClick={handleTagClick}
         />
+      ) : loading ? (
+        <div className="mt-20">
+          <Loading />
+        </div>
       ) : (
         <PromptCardList data={allPosts} handleTagClick={handleTagClick} />
       )}
