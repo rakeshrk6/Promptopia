@@ -7,6 +7,16 @@ import { Suspense } from "react"
 
 const EditPrompt = () => {
   const router = useRouter()
+
+  return (
+    <Suspense fallback={<h1>Loading...</h1>}>
+      <EditPromptContent />
+    </Suspense>
+  )
+}
+
+const EditPromptContent = () => {
+  const router = useRouter()
   const searchParams = useSearchParams()
   const promptId = searchParams.get("id")
 
@@ -54,16 +64,15 @@ const EditPrompt = () => {
       setSubmitting(false)
     }
   }
+
   return (
-    <Suspense fallback={<h1>Loading...</h1>}>
-      <Form
-        type="Edit"
-        post={post}
-        setPost={setPost}
-        submitting={submitting}
-        handleSubmit={updatePrompt}
-      />
-    </Suspense>
+    <Form
+      type="Edit"
+      post={post}
+      setPost={setPost}
+      submitting={submitting}
+      handleSubmit={updatePrompt}
+    />
   )
 }
 
