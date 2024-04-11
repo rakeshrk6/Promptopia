@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import PromptCard from "./PromptCard"
 import Image from "next/image"
 import { connectToDB } from "@utils/database"
-import Loading from "./loading"
+import Loading from "./Loading"
 
 const PromptCardList = ({ data, handleTagClick }) => {
   return (
