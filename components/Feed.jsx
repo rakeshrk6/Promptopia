@@ -27,10 +27,6 @@ const Feed = () => {
   const [searchedResults, setSearchedResults] = useState([])
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    connectToDB()
-  }, [])
-
   const handleSearchChange = (e) => {
     clearTimeout(searchTimeout)
     setSearchText(e.target.value)
