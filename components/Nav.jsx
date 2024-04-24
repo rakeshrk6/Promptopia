@@ -4,10 +4,11 @@ import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { signIn, signOut, useSession, getProviders } from "next-auth/react"
+import { useRouter } from "next/navigation"
 
 const Nav = () => {
   const { data: session } = useSession()
-
+  const router = useRouter()
   const [providers, setProviders] = useState(null)
   const [toggleDropdown, setToggleDropdown] = useState(false)
 
@@ -19,6 +20,17 @@ const Nav = () => {
 
     setUpProviders()
   }, [])
+
+  function handleCreatePost() {
+    if (session?.user) {
+      router.push("/create-prompt")
+    } else {
+      {
+        providers &&
+          Object.values(providers).map((provider) => signIn(provider.id))
+      }
+    }
+  }
 
   return (
     <nav className="flex-between w-full mb-16 pt-5">
@@ -35,12 +47,14 @@ const Nav = () => {
 
       {/* desktop navigation */}
       <div className="sm:flex hidden">
-        <Link
-          href="/create-prompt"
-          className={`${session?.user ? "black_btn" : "outline_btn"} mr-5`}
+        <div
+          onClick={handleCreatePost}
+          className={`${
+            session?.user ? "black_btn" : "outline_btn"
+          } mr-5 cursor-pointer`}
         >
           Create Post
-        </Link>
+        </div>
 
         {session?.user ? (
           <div className="flex gap-3 md:gap-5">
