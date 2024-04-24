@@ -60,7 +60,6 @@ const Feed = () => {
   useEffect(() => {
     try {
       setLoading(true)
-      connectToDB()
       const fetchPosts = async () => {
         const response = await fetch("/api/prompt")
         const data = await response.json()
