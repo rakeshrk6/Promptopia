@@ -1,7 +1,8 @@
 "use client"
 import Feed from "@components/Feed"
+import Loading from "@components/Loading"
 import { connectToDB } from "@utils/database"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 function Home() {
   return (

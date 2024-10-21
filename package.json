@@ -11,10 +11,12 @@
   "dependencies": {
     "aws4": "^1.12.0",
     "bcrypt": "^5.1.1",
+    "express": "^4.21.1",
     "mongodb": "^6.3.0",
     "mongoose": "^8.1.1",
     "next": "^14.1.4",
     "next-auth": "^4.24.5",
+    "promptopia": "file:",
     "react": "^18",
     "react-dom": "^18"
   },
