@@ -1,21 +1,26 @@
-import mongoose from "mongoose"
+import mongoose from 'mongoose';
 
-let isConnected = false
+export async function connectToDB() {
+    try {
+        mongoose.connect(process.env.MONGODB_URI,{
+          dbName: "share_prompt",
+        });
+        const connection = mongoose.connection;
 
-export const connectToDB = async () => {
-  if (isConnected) {
-    console.log("mongoDB is already connected")
-    return
-  }
+        connection.on('connected', () => {
+            console.log('MongoDB connected successfully');
+        })
 
-  try {
-    await mongoose.connect(process.env.MONGODB_URI, {
-      dbName: "share_prompt",
-    })
+        connection.on('error', (err) => {
+            console.log('MongoDB connection error. Please make sure MongoDB is running. ' + err);
+            process.exit();
+        })
 
-    isConnected = true
-    console.log("mongoDB connected")
-  } catch (error) {
-    console.log(error)
-  }
+    } catch (error) {
+        console.log('Something goes wrong!');
+        console.log(error);
+        
+    }
+
+
 }
