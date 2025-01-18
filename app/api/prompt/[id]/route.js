@@ -1,10 +1,11 @@
 import Prompt from "@models/prompt"
 import { connectToDB } from "@utils/database"
 
+connectToDB()
+
 //GET (read)
 export const GET = async (request, { params }) => {
   try {
-    await connectToDB()
 
     const prompt = await Prompt.findById(params.id).populate("creator")
     if (!prompt) {
@@ -22,7 +23,6 @@ export const PATCH = async (request, { params }) => {
   const { prompt, tag } = await request.json()
 
   try {
-    await connectToDB()
 
     const existingPrompt = await Prompt.findById(params.id)
 
